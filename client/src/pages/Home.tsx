@@ -418,10 +418,10 @@ export default function Home() {
                  type="SUSHI"
                />
                <WantedPoster 
-                 name="CHOPPER'S SWEET"
+                 name="Sushi"
                  bounty="600"
                  description="Cotton candy dessert to cure any blues."
-                 image="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&q=80&w=800"
+                 image="https://livejapan.com/en/article-a0000370/"
                  type="DESSERT"
                />
                <WantedPoster 

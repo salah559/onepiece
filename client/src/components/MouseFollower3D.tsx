@@ -1,4 +1,4 @@
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import { useRef, useState, useEffect } from 'react';
 import * as THREE from 'three';
@@ -20,25 +20,15 @@ function Model() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  useFrame(() => {
-    if (meshRef.current) {
-      const targetX = mousePos.x * (viewport.width / 2);
-      const targetY = mousePos.y * (viewport.height / 2);
-      
-      meshRef.current.position.x += (targetX - meshRef.current.position.x) * 0.1;
-      meshRef.current.position.y += (targetY - meshRef.current.position.y) * 0.1;
-      
-      meshRef.current.rotation.y += 0.02;
-      meshRef.current.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
-    }
-  });
+  const posX = mousePos.x * (viewport.width / 2);
+  const posY = mousePos.y * (viewport.height / 2);
 
   return (
     <primitive 
       ref={meshRef} 
       object={scene.clone()} 
-      scale={1.5}
-      position={[0, 0, 0]}
+      scale={0.15}
+      position={[posX, posY, 0]}
     />
   );
 }

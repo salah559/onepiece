@@ -66,42 +66,6 @@ function LoadingScreen({ onMusicStart }: { onMusicStart: () => void }) {
         <div className="absolute inset-0 bg-gradient-to-l from-transparent to-orange-500/30" />
       </motion.div>
 
-      {/* Center Fire/Slash Line */}
-      <motion.div
-        className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 z-20"
-        style={{
-          background: 'linear-gradient(180deg, transparent, #ff6b00, #ffd700, #ff6b00, transparent)',
-          boxShadow: '0 0 30px 10px rgba(255,107,0,0.8), 0 0 60px 20px rgba(255,215,0,0.4)',
-        }}
-        animate={isSplitting ? { 
-          scaleY: [1, 1.5, 0],
-          opacity: [1, 1, 0]
-        } : {
-          opacity: [0.5, 1, 0.5],
-        }}
-        transition={isSplitting ? { duration: 0.6 } : { duration: 0.5, repeat: Infinity }}
-      />
-
-      {/* Logo Overlay */}
-      <motion.div
-        className="absolute z-30 flex flex-col items-center"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <img 
-          src={onePieceLogo} 
-          alt="One Piece Restaurant" 
-          className="w-48 md:w-72 object-contain drop-shadow-[0_0_40px_rgba(255,215,0,0.8)]"
-        />
-        <motion.h2
-          className="text-2xl md:text-3xl font-pirate text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-300 mt-4 tracking-widest"
-          animate={{ opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          Loading...
-        </motion.h2>
-      </motion.div>
     </motion.div>
   );
 }

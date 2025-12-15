@@ -29,7 +29,7 @@ function Model() {
       object={scene.clone()} 
       scale={0.15}
       position={[posX, posY, 0]}
-      rotation={[0, Math.PI, 0]}
+      rotation={[0, Math.PI, 93 * (Math.PI / 180)]}
     />
   );
 }

@@ -132,6 +132,73 @@ function LoadingScreen() {
   );
 }
 
+// Mouse Sparkles Component - Creates subtle sparks following mouse movement
+interface Spark {
+  id: number;
+  x: number;
+  y: number;
+}
+
+function MouseSparkles() {
+  const [sparks, setSparks] = useState<Spark[]>([]);
+  const sparkIdRef = useRef(0);
+  const lastSparkTime = useRef(0);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const now = Date.now();
+      if (now - lastSparkTime.current < 50) return;
+      lastSparkTime.current = now;
+
+      const newSpark: Spark = {
+        id: sparkIdRef.current++,
+        x: e.clientX + (Math.random() - 0.5) * 20,
+        y: e.clientY + (Math.random() - 0.5) * 20,
+      };
+
+      setSparks(prev => [...prev.slice(-8), newSpark]);
+
+      setTimeout(() => {
+        setSparks(prev => prev.filter(s => s.id !== newSpark.id));
+      }, 600);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[60]">
+      <AnimatePresence>
+        {sparks.map(spark => (
+          <motion.div
+            key={spark.id}
+            initial={{ 
+              opacity: 0.8, 
+              scale: 1,
+              x: spark.x,
+              y: spark.y,
+            }}
+            animate={{ 
+              opacity: 0, 
+              scale: 0,
+              y: spark.y - 30,
+            }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="absolute w-2 h-2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              background: 'radial-gradient(circle, rgba(255,215,0,1) 0%, rgba(255,180,0,0.6) 40%, transparent 70%)',
+              boxShadow: '0 0 8px rgba(255,215,0,0.8), 0 0 15px rgba(255,150,0,0.4)',
+              borderRadius: '50%',
+            }}
+          />
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // Floating Gold Particles Component
 function GoldParticles() {
   return (
@@ -247,6 +314,9 @@ export default function Home() {
         <GoldParticles />
         <AnimatedWaves />
       </div>
+
+      {/* Mouse Sparkles Effect */}
+      {hasEntered && <MouseSparkles />}
 
       {/* Content */}
       <div className="relative z-30">

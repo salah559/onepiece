@@ -8,6 +8,77 @@ import zoroGif from "@assets/2e55f7894bf872a68daca8829ff27379_(1)_1765764032811.
 
 const ONE_PIECE_THEME_URL = "/windmill-village.mp3";
 
+// Enter Screen Component - User must click to start
+function EnterScreen({ onEnter }: { onEnter: () => void }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed inset-0 z-[110] flex items-center justify-center bg-black"
+    >
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: `url(${zoroGif})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(8px)',
+        }}
+      />
+      
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="relative z-10 flex flex-col items-center gap-8"
+      >
+        <motion.img
+          src={onePieceLogo}
+          alt="One Piece"
+          className="w-40 h-40 md:w-56 md:h-56 object-contain drop-shadow-[0_0_30px_rgba(255,215,0,0.5)]"
+          animate={{ 
+            y: [0, -10, 0],
+            rotate: [0, 2, -2, 0],
+          }}
+          transition={{ 
+            duration: 3, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+        />
+        
+        <motion.button
+          onClick={onEnter}
+          whileHover={{ scale: 1.1, boxShadow: '0 0 40px rgba(255,215,0,0.8)' }}
+          whileTap={{ scale: 0.95 }}
+          className="px-12 py-4 bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 text-black font-bold text-2xl rounded-full shadow-[0_0_30px_rgba(255,215,0,0.5)] border-4 border-yellow-300 font-cairo tracking-wider"
+          animate={{
+            boxShadow: [
+              '0 0 20px rgba(255,215,0,0.4)',
+              '0 0 40px rgba(255,215,0,0.6)',
+              '0 0 20px rgba(255,215,0,0.4)',
+            ],
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          ENTER
+        </motion.button>
+        
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ delay: 0.5 }}
+          className="text-yellow-500/70 text-sm font-cairo"
+        >
+          Click to start the adventure
+        </motion.p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // Loading Screen Component with Zoro Split Animation
 function LoadingScreen({ onMusicStart }: { onMusicStart: () => void }) {
   const [isSplitting, setIsSplitting] = useState(false);
@@ -16,7 +87,9 @@ function LoadingScreen({ onMusicStart }: { onMusicStart: () => void }) {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = 0.5;
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch((err) => {
+        console.log('Audio autoplay prevented:', err);
+      });
     }
     onMusicStart();
     
@@ -150,15 +223,18 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [hasEntered, setHasEntered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [musicStarted, setMusicStarted] = useState(false);
 
-  useEffect(() => {
+  const handleEnter = () => {
+    setHasEntered(true);
+    setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3300);
     return () => clearTimeout(timer);
-  }, []);
+  };
 
   const handleMusicStart = () => {
     setMusicStarted(true);
@@ -167,7 +243,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden font-cairo">
       <AnimatePresence mode="wait">
-        {isLoading && <LoadingScreen key="loading" onMusicStart={handleMusicStart} />}
+        {!hasEntered && <EnterScreen key="enter" onEnter={handleEnter} />}
+        {hasEntered && isLoading && <LoadingScreen key="loading" onMusicStart={handleMusicStart} />}
       </AnimatePresence>
 
       {/* Immersive Background */}

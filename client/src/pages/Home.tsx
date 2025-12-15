@@ -182,142 +182,6 @@ function AnimatedWaves() {
   );
 }
 
-const menuItems = [
-  { name: "MEAT FEAST WOK", bounty: "1,200", description: "Premium beef strips, stir-fried with pirate spices.", image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=80&w=800", type: "WOK" },
-  { name: "ALL BLUE SEAFOOD", bounty: "1,500", description: "Fresh catch: Shrimp, calamari, & mussels.", image: "https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&q=80&w=800", type: "SPECIAL" },
-  { name: "ZORO'S SUSHI", bounty: "1,800", description: "Three-sword style selection of Sashimi.", image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=800", type: "SUSHI" },
-  { name: "CHOPPER'S SWEET", bounty: "600", description: "Cotton candy dessert to cure any blues.", image: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&q=80&w=800", type: "DESSERT" },
-  { name: "NAMI'S ORANGE", bounty: "1,100", description: "Tangerine chicken, sweet and savory.", image: "https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?auto=format&fit=crop&q=80&w=800", type: "WOK" },
-  { name: "FRANKY'S WINGS", bounty: "900", description: "Super Cola glazed chicken wings!", image: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&q=80&w=800", type: "SNACK" },
-  { name: "LUFFY'S MEGA MEAT", bounty: "2,500", description: "Giant meat platter for the hungriest pirates!", image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800", type: "SPECIAL" },
-  { name: "SANJI'S RAMEN", bounty: "1,400", description: "Chef's special ramen with secret spices.", image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&q=80&w=800", type: "SPECIAL" },
-];
-
-const categories = ["ALL", "WOK", "SUSHI", "SPECIAL", "DESSERT", "SNACK"];
-
-function MenuSection() {
-  const [activeCategory, setActiveCategory] = useState("ALL");
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-
-  const filteredItems = activeCategory === "ALL" 
-    ? menuItems 
-    : menuItems.filter(item => item.type === activeCategory);
-
-  return (
-    <div className="mt-8">
-      <div className="flex flex-wrap justify-center gap-3 mb-12">
-        {categories.map((category) => (
-          <motion.button
-            key={category}
-            onClick={() => setActiveCategory(category)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`px-6 py-3 font-pirate text-lg tracking-wider rounded-full transition-all duration-300 border-2 ${
-              activeCategory === category
-                ? 'bg-primary text-black border-primary shadow-[0_0_20px_rgba(255,215,0,0.5)]'
-                : 'bg-black/50 text-white border-primary/30 hover:border-primary/60 hover:bg-black/70'
-            }`}
-          >
-            {category}
-          </motion.button>
-        ))}
-      </div>
-
-      <motion.div 
-        layout
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-4"
-      >
-        <AnimatePresence mode="popLayout">
-          {filteredItems.map((item, index) => (
-            <motion.div
-              key={item.name}
-              layout
-              initial={{ opacity: 0, scale: 0.8, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: -30 }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              onMouseEnter={() => setHoveredItem(item.name)}
-              onMouseLeave={() => setHoveredItem(null)}
-              className="relative group cursor-pointer"
-            >
-              <div 
-                className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-black/40 to-black/80 backdrop-blur-sm border border-primary/20 hover:border-primary/50 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-primary/20"
-              >
-                <div className="relative h-56 overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                  
-                  <div className="absolute top-3 left-3">
-                    <span className="px-3 py-1 bg-black/70 backdrop-blur-sm text-primary font-pirate text-sm rounded-full border border-primary/30">
-                      {item.type}
-                    </span>
-                  </div>
-                  
-                  <motion.div 
-                    className="absolute top-3 right-3"
-                    animate={{ rotate: hoveredItem === item.name ? [0, -10, 10, 0] : 0 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-lg border-2 border-white/20">
-                      <span className="text-white font-bold text-xs">HOT</span>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <div className="p-5">
-                  <h3 className="text-xl font-pirate text-white mb-2 tracking-wide group-hover:text-primary transition-colors">
-                    {item.name}
-                  </h3>
-                  <p className="text-gray-400 text-sm font-cairo mb-4 line-clamp-2">
-                    {item.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <img src={skullLogo} className="w-5 h-5 opacity-80" alt="coin" />
-                      <span className="text-2xl font-bold text-primary font-mono">{item.bounty}</span>
-                      <span className="text-sm text-gray-500">DA</span>
-                    </div>
-                    
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="w-10 h-10 rounded-full bg-primary/20 hover:bg-primary flex items-center justify-center transition-all duration-300 group/btn"
-                    >
-                      <svg 
-                        className="w-5 h-5 text-primary group-hover/btn:text-black transition-colors" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                      </svg>
-                    </motion.button>
-                  </div>
-                </div>
-
-                <motion.div 
-                  className="absolute inset-0 border-2 border-primary rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  animate={{ 
-                    boxShadow: hoveredItem === item.name 
-                      ? ['0 0 20px rgba(255,215,0,0.3)', '0 0 40px rgba(255,215,0,0.5)', '0 0 20px rgba(255,215,0,0.3)']
-                      : '0 0 0px rgba(255,215,0,0)'
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
-    </div>
-  );
-}
-
 export default function Home() {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
@@ -435,7 +299,51 @@ export default function Home() {
         <section id="menu" className="min-h-screen py-24 px-4 relative">
            <div className="max-w-7xl mx-auto">
              <SectionTitle title="Wanted Menu" subtitle="Dead or Alive (Delicious)" />
-             <MenuSection />
+             
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-16 px-4">
+               <WantedPoster 
+                 name="MEAT FEAST WOK"
+                 bounty="1,200"
+                 description="Premium beef strips, stir-fried with pirate spices."
+                 image="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=80&w=800"
+                 type="WOK"
+               />
+               <WantedPoster 
+                 name="ALL BLUE SEAFOOD"
+                 bounty="1,500"
+                 description="Fresh catch: Shrimp, calamari, & mussels."
+                 image="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&q=80&w=800"
+                 type="SPECIAL"
+               />
+               <WantedPoster 
+                 name="ZORO'S SUSHI"
+                 bounty="1,800"
+                 description="Three-sword style selection of Sashimi."
+                 image="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=800"
+                 type="SUSHI"
+               />
+               <WantedPoster 
+                 name="CHOPPER'S SWEET"
+                 bounty="600"
+                 description="Cotton candy dessert to cure any blues."
+                 image="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&q=80&w=800"
+                 type="DESSERT"
+               />
+               <WantedPoster 
+                 name="NAMI'S ORANGE"
+                 bounty="1,100"
+                 description="Tangerine chicken, sweet and savory."
+                 image="https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?auto=format&fit=crop&q=80&w=800"
+                 type="WOK"
+               />
+               <WantedPoster 
+                 name="FRANKY'S WINGS"
+                 bounty="900"
+                 description="Super Cola glazed chicken wings!"
+                 image="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&q=80&w=800"
+                 type="SNACK"
+               />
+             </div>
            </div>
         </section>
 

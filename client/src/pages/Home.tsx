@@ -80,19 +80,10 @@ function EnterScreen({ onEnter }: { onEnter: () => void }) {
 }
 
 // Loading Screen Component with Zoro Split Animation
-function LoadingScreen({ onMusicStart }: { onMusicStart: () => void }) {
+function LoadingScreen() {
   const [isSplitting, setIsSplitting] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.5;
-      audioRef.current.play().catch((err) => {
-        console.log('Audio autoplay prevented:', err);
-      });
-    }
-    onMusicStart();
-    
     const splitTimer = setTimeout(() => {
       setIsSplitting(true);
     }, 2500);
@@ -107,8 +98,6 @@ function LoadingScreen({ onMusicStart }: { onMusicStart: () => void }) {
       transition={{ duration: 0.1 }}
       className={`fixed inset-0 z-[100] flex items-center justify-center overflow-hidden ${isSplitting ? 'bg-transparent pointer-events-none' : 'bg-black'}`}
     >
-      <audio ref={audioRef} src={ONE_PIECE_THEME_URL} loop />
-      
       {/* Left Split */}
       <motion.div
         className="absolute inset-0 overflow-hidden"
@@ -225,7 +214,6 @@ export default function Home() {
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const [hasEntered, setHasEntered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [musicStarted, setMusicStarted] = useState(false);
 
   const handleEnter = () => {
     setHasEntered(true);
@@ -236,15 +224,11 @@ export default function Home() {
     return () => clearTimeout(timer);
   };
 
-  const handleMusicStart = () => {
-    setMusicStarted(true);
-  };
-
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden font-cairo">
       <AnimatePresence mode="wait">
         {!hasEntered && <EnterScreen key="enter" onEnter={handleEnter} />}
-        {hasEntered && isLoading && <LoadingScreen key="loading" onMusicStart={handleMusicStart} />}
+        {hasEntered && isLoading && <LoadingScreen key="loading" />}
       </AnimatePresence>
 
       {/* Immersive Background */}
@@ -420,7 +404,7 @@ export default function Home() {
         <Footer />
       </div>
 
-      <MusicPlayer />
+      {hasEntered && <MusicPlayer autoPlay={true} />}
     </div>
   );
 }
@@ -577,10 +561,11 @@ function SocialIcon({ icon }: { icon: string }) {
   )
 }
 
-function MusicPlayer() {
-  const [isPlaying, setIsPlaying] = useState(true);
+function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }) {
+  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [showVolume, setShowVolume] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const togglePlay = () => {
@@ -603,15 +588,17 @@ function MusicPlayer() {
   };
 
   useEffect(() => {
-    if (audioRef.current) {
+    if (autoPlay && !hasStarted && audioRef.current) {
       audioRef.current.volume = volume;
       audioRef.current.play().then(() => {
         setIsPlaying(true);
-      }).catch(() => {
+        setHasStarted(true);
+      }).catch((err) => {
+        console.log('Audio play failed:', err);
         setIsPlaying(false);
       });
     }
-  }, []);
+  }, [autoPlay, hasStarted]);
 
   return (
     <motion.div

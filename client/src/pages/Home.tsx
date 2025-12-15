@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { Component, ReactNode, useState, useEffect, useRef } from "react";
+import { Component, ReactNode, useState, useEffect, useRef, Suspense } from "react";
+import MouseFollower3D from "../components/MouseFollower3D";
 import parchmentTexture from "@assets/generated_images/old_worn_parchment_paper_texture.png";
 import skullLogo from "@assets/generated_images/one_piece_style_jolly_roger_skull_and_crossbones_with_chef_hat.png";
 import onePieceLogo from "@assets/LS20251215001355_1765758034044.png";
@@ -317,6 +318,13 @@ export default function Home() {
 
       {/* Mouse Sparkles Effect */}
       {hasEntered && <MouseSparkles />}
+
+      {/* 3D Model Following Mouse */}
+      {hasEntered && (
+        <Suspense fallback={null}>
+          <MouseFollower3D />
+        </Suspense>
+      )}
 
       {/* Content */}
       <div className="relative z-30">

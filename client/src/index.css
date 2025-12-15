@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --font-pirate: "Pirata One", system-ui;
+  --font-cinzel: "Cinzel", serif;
+  --font-cairo: "Cairo", sans-serif;
+  --font-chinese: "Noto Sans SC", sans-serif;
+  
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+:root {
+  /* One Piece / Pirate Theme Colors */
+  /* Deep Ocean Blue, Gold, Red, Parchment */
+  
+  --background: 220 30% 10%; /* Dark Ocean */
+  --foreground: 45 30% 90%; /* Parchment White */
+
+  --card: 222 40% 15%;
+  --card-foreground: 45 30% 90%;
+
+  --popover: 222 40% 15%;
+  --popover-foreground: 45 30% 90%;
+
+  --primary: 45 100% 50%; /* Treasure Gold */
+  --primary-foreground: 20 50% 10%;
+
+  --secondary: 350 80% 50%; /* Luffy Red */
+  --secondary-foreground: 45 100% 95%;
+
+  --muted: 217 30% 20%;
+  --muted-foreground: 215 20% 65%;
+
+  --accent: 180 50% 30%; /* Teal/Sea accent */
+  --accent-foreground: 45 30% 95%;
+
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 45 30% 90%;
+
+  --border: 45 30% 20%;
+  --input: 217 30% 20%;
+  --ring: 45 100% 50%;
+
+  --radius: 0.5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-cairo), sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-pirate), serif;
+}
+
+.font-cinzel {
+  font-family: var(--font-cinzel), serif;
+}
+
+.text-gold {
+  color: hsl(var(--primary));
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* 3D Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}

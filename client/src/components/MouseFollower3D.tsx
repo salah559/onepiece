@@ -29,13 +29,21 @@ function Model() {
       object={scene.clone()} 
       scale={0.15}
       position={[posX, posY, 0]}
+      rotation={[0, Math.PI, 0]}
     />
   );
 }
 
 export default function MouseFollower3D() {
+  useEffect(() => {
+    document.body.style.cursor = 'none';
+    return () => {
+      document.body.style.cursor = 'auto';
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-[55] pointer-events-none" style={{ pointerEvents: 'none' }}>
+    <div className="fixed inset-0 z-[55] pointer-events-none" style={{ pointerEvents: 'none', cursor: 'none' }}>
       <Canvas
         camera={{ position: [0, 0, 10], fov: 50 }}
         style={{ background: 'transparent', pointerEvents: 'none' }}

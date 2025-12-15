@@ -3,7 +3,7 @@ import { Component, ReactNode, useState, useEffect, useRef } from "react";
 import parchmentTexture from "@assets/generated_images/old_worn_parchment_paper_texture.png";
 import skullLogo from "@assets/generated_images/one_piece_style_jolly_roger_skull_and_crossbones_with_chef_hat.png";
 import onePieceLogo from "@assets/LS20251215001355_1765758034044.png";
-import onePieceBg from "@assets/219506_1765758833921.gif";
+import onePieceBg from "@assets/221581_1765767596992.gif";
 import zoroGif from "@assets/2e55f7894bf872a68daca8829ff27379_(1)_1765764032811.gif";
 
 const ONE_PIECE_THEME_URL = "/windmill-village.mp3";

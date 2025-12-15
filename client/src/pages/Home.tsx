@@ -421,7 +421,7 @@ export default function Home() {
                  name="Sushi"
                  bounty="600"
                  description="Cotton candy dessert to cure any blues."
-                 image="https://livejapan.com/en/article-a0000370/"
+                 image="https://i.pinimg.com/736x/e1/1b/83/e11b838229539c658deb28134ef7379c.jpg"
                  type="DESSERT"
                />
                <WantedPoster 

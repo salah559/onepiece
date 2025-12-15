@@ -537,7 +537,7 @@ function SocialIcon({ icon }: { icon: string }) {
 }
 
 function MusicPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(0.5);
   const [showVolume, setShowVolume] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -564,6 +564,11 @@ function MusicPlayer() {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(() => {
+        setIsPlaying(false);
+      });
     }
   }, []);
 

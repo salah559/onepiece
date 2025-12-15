@@ -5,7 +5,7 @@ import skullLogo from "@assets/generated_images/one_piece_style_jolly_roger_skul
 import onePieceLogo from "@assets/LS20251215001355_1765758034044.png";
 import onePieceBg from "@assets/219506_1765758833921.gif";
 
-const ONE_PIECE_THEME_URL = "https://archive.org/download/tvtunes_16762/One%20Piece%20-%20We%20Are.mp3";
+const ONE_PIECE_THEME_URL = "/windmill-village.mp3";
 
 // Loading Screen Component with Sparkles
 function LoadingScreen() {
@@ -617,7 +617,7 @@ function MusicPlayer() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          ♪ We Are! - One Piece ♪
+          ♪ Windmill Village - One Piece ♪
         </motion.div>
       )}
     </motion.div>

@@ -4,97 +4,104 @@ import parchmentTexture from "@assets/generated_images/old_worn_parchment_paper_
 import skullLogo from "@assets/generated_images/one_piece_style_jolly_roger_skull_and_crossbones_with_chef_hat.png";
 import onePieceLogo from "@assets/LS20251215001355_1765758034044.png";
 import onePieceBg from "@assets/219506_1765758833921.gif";
+import zoroGif from "@assets/2e55f7894bf872a68daca8829ff27379_(1)_1765764032811.gif";
 
 const ONE_PIECE_THEME_URL = "/windmill-village.mp3";
 
-// Loading Screen Component with Sparkles
-function LoadingScreen() {
+// Loading Screen Component with Zoro Split Animation
+function LoadingScreen({ onMusicStart }: { onMusicStart: () => void }) {
+  const [isSplitting, setIsSplitting] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.5;
+      audioRef.current.play().catch(() => {});
+    }
+    onMusicStart();
+    
+    const splitTimer = setTimeout(() => {
+      setIsSplitting(true);
+    }, 2500);
+    
+    return () => clearTimeout(splitTimer);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
-      className="fixed inset-0 z-[100] bg-gradient-to-b from-black via-[#0a1628] to-black flex flex-col items-center justify-center p-4 overflow-hidden"
+      transition={{ duration: 0.3, delay: 0.5 }}
+      className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden"
     >
-      {/* Background Sparkles */}
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-yellow-400 rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            boxShadow: '0 0 6px 2px rgba(255,215,0,0.6)',
-          }}
-          animate={{
-            opacity: [0, 1, 0],
-            scale: [0, 1.5, 0],
-          }}
-          transition={{
-            duration: 1.5 + Math.random() * 1,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-          }}
-        />
-      ))}
-
+      <audio ref={audioRef} src={ONE_PIECE_THEME_URL} loop />
+      
+      {/* Left Split */}
       <motion.div
-        initial={{ scale: 0.8, opacity: 0, rotateY: -15 }}
-        animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative flex flex-col items-center"
+        className="absolute inset-0 overflow-hidden"
+        style={{ clipPath: 'inset(0 50% 0 0)' }}
+        animate={isSplitting ? { x: '-100%' } : { x: 0 }}
+        transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
       >
-        {/* Glow Ring Behind Logo */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            className="w-72 h-72 md:w-[28rem] md:h-[28rem] rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%)',
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.5, 0.8, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </div>
-
         <img 
-          src={onePieceLogo} 
-          alt="Loading..." 
-          className="w-64 md:w-96 object-contain mb-12 drop-shadow-[0_0_40px_rgba(255,215,0,0.6)] relative z-10"
+          src={zoroGif} 
+          alt="Zoro" 
+          className="w-full h-full object-cover"
         />
-        
-        {/* Improved Progress Bar */}
-        <div className="w-64 md:w-96 h-2 bg-white/5 rounded-full overflow-hidden relative border border-yellow-500/20">
-          <motion.div 
-            className="absolute top-0 left-0 h-full rounded-full"
-            style={{
-              background: 'linear-gradient(90deg, #b8860b 0%, #ffd700 50%, #ffec8b 100%)',
-              boxShadow: '0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.4)',
-            }}
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-          />
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-orange-500/30" />
       </motion.div>
 
-      <motion.h2
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="text-2xl md:text-3xl font-pirate text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-300 mt-8 tracking-widest uppercase"
-        style={{
-          textShadow: '0 0 30px rgba(255,215,0,0.5)',
-        }}
+      {/* Right Split */}
+      <motion.div
+        className="absolute inset-0 overflow-hidden"
+        style={{ clipPath: 'inset(0 0 0 50%)' }}
+        animate={isSplitting ? { x: '100%' } : { x: 0 }}
+        transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
       >
-        Gathering the Crew...
-      </motion.h2>
+        <img 
+          src={zoroGif} 
+          alt="Zoro" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent to-orange-500/30" />
+      </motion.div>
+
+      {/* Center Fire/Slash Line */}
+      <motion.div
+        className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 z-20"
+        style={{
+          background: 'linear-gradient(180deg, transparent, #ff6b00, #ffd700, #ff6b00, transparent)',
+          boxShadow: '0 0 30px 10px rgba(255,107,0,0.8), 0 0 60px 20px rgba(255,215,0,0.4)',
+        }}
+        animate={isSplitting ? { 
+          scaleY: [1, 1.5, 0],
+          opacity: [1, 1, 0]
+        } : {
+          opacity: [0.5, 1, 0.5],
+        }}
+        transition={isSplitting ? { duration: 0.6 } : { duration: 0.5, repeat: Infinity }}
+      />
+
+      {/* Logo Overlay */}
+      <motion.div
+        className="absolute z-30 flex flex-col items-center"
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <img 
+          src={onePieceLogo} 
+          alt="One Piece Restaurant" 
+          className="w-48 md:w-72 object-contain drop-shadow-[0_0_40px_rgba(255,215,0,0.8)]"
+        />
+        <motion.h2
+          className="text-2xl md:text-3xl font-pirate text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-300 mt-4 tracking-widest"
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          Loading...
+        </motion.h2>
+      </motion.div>
     </motion.div>
   );
 }
@@ -180,18 +187,23 @@ export default function Home() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const [isLoading, setIsLoading] = useState(true);
+  const [musicStarted, setMusicStarted] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2200);
+    }, 3500);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleMusicStart = () => {
+    setMusicStarted(true);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden font-cairo">
       <AnimatePresence mode="wait">
-        {isLoading && <LoadingScreen key="loading" />}
+        {isLoading && <LoadingScreen key="loading" onMusicStart={handleMusicStart} />}
       </AnimatePresence>
 
       {/* Immersive Background */}

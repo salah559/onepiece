@@ -683,7 +683,7 @@ function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }) {
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 2.5, duration: 0.5 }}
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-3"
+      className="fixed bottom-6 right-6 z-[70] flex items-center gap-3"
       onMouseEnter={() => setShowVolume(true)}
       onMouseLeave={() => setShowVolume(false)}
     >

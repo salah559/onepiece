@@ -31,8 +31,8 @@ function LoadingScreen({ onMusicStart }: { onMusicStart: () => void }) {
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, delay: 0.5 }}
-      className="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden"
+      transition={{ duration: 0.1 }}
+      className={`fixed inset-0 z-[100] flex items-center justify-center overflow-hidden ${isSplitting ? 'bg-transparent pointer-events-none' : 'bg-black'}`}
     >
       <audio ref={audioRef} src={ONE_PIECE_THEME_URL} loop />
       
@@ -156,7 +156,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3500);
+    }, 3300);
     return () => clearTimeout(timer);
   }, []);
 

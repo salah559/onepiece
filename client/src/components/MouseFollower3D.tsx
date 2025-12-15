@@ -35,10 +35,10 @@ function Model() {
 
 export default function MouseFollower3D() {
   return (
-    <div className="fixed inset-0 z-[55] pointer-events-none">
+    <div className="fixed inset-0 z-[55] pointer-events-none" style={{ pointerEvents: 'none' }}>
       <Canvas
         camera={{ position: [0, 0, 10], fov: 50 }}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', pointerEvents: 'none' }}
         gl={{ alpha: true, antialias: true }}
       >
         <ambientLight intensity={0.8} />

@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { Component, ReactNode, useState, useEffect, useRef } from "react";
 import parchmentTexture from "@assets/generated_images/old_worn_parchment_paper_texture.png";
 import skullLogo from "@assets/generated_images/one_piece_style_jolly_roger_skull_and_crossbones_with_chef_hat.png";
-import onePieceLogo from "@assets/LS20251215001355_1765758034044.png";
+import onePieceLogo from "@assets/1765754197998-ezgif.com-gif-maker_(1)_1765767061513.webp";
 import onePieceBg from "@assets/219506_1765758833921.gif";
 import zoroGif from "@assets/2e55f7894bf872a68daca8829ff27379_(1)_1765764032811.gif";
 
